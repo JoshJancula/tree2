@@ -14,7 +14,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 'extended': 'false' }));
 app.use('/', express.static(path.join(__dirname, '/client/dist/client')));
-app.set('view engine', 'html');
+app.set('view engine', 'jade');
 
 
 app.all('*', (req, res, next) => {
@@ -29,7 +29,7 @@ app.all('*', (req, res, next) => {
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  let err = new Error('Not Found');
+  let err = new Error('Not Found, req was: ', req, ' res is: ', res);
   err.status = 404;
   next(err);
 });
