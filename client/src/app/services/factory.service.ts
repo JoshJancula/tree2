@@ -27,6 +27,8 @@ export class FactoryService {
 	public initSocket(): void {
 		if (window.location.host === 'localhost:4200') {
 			this.socket = socketIo(LOCAL_URL);
+		} else if (window.location.host === 'localhost:8080') {
+			this.socket = socketIo('http://localhost:8080');
 		} else {
 			this.socket = socketIo(SERVER_URL);
 		}

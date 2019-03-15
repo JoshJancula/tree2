@@ -13,7 +13,7 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 'extended': 'false' }));
-app.use(express.static(path.join(__dirname, '/client/dist/client')));
+app.use('/', express.static(path.join(__dirname, '/client/dist/client')));
 app.set('view engine', 'jade');
 
 
@@ -57,6 +57,7 @@ db.sequelize.sync().then(() => {
 
     io.on('connection', (socket) => {
 
+      console.log('socket is connected');
       socket.on('connectionRequest', () => {
         console.log('received connection request');
         db.Factory.findAll({}).then((data) => {
