@@ -19,7 +19,7 @@ export class FactoryService {
 
 	constructor(private dialog: MatDialog) { }
 
-	public showError(message: string) {
+	public showError(message: string): void {
 		this.dialog.open(ErrorDialogComponent, {
 			data: message,
 			panelClass: 'formDialog'
@@ -56,21 +56,21 @@ export class FactoryService {
 		});
 	}
 
-	public newFactory(data: any) {
+	public newFactory(data: any): void {
 		if (this.socket === undefined) {
 			this.initSocket();
 		}
 		this.socket.emit('newFactory', data);
 	}
 
-	public updateFactory(data: any) {
+	public updateFactory(data: any): void {
 		if (this.socket === undefined) {
 			this.initSocket();
 		}
 		this.socket.emit('updateFactory', data);
 	}
 
-	public deleteFactory(data: any) {
+	public deleteFactory(data: any): void {
 		if (this.socket === undefined) {
 			this.initSocket();
 		}

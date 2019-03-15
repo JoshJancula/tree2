@@ -31,14 +31,14 @@ export class UtilService {
 		});
 	}
 
-	public showError(message: string) {
+	public showError(message: string): void {
 		this.dialog.open(ErrorDialogComponent, {
 			data: message,
 			panelClass: 'formDialog'
 		});
 	}
 
-	public getDiff(a: any, b: any, total: any) {
+	public getDiff(a: any, b: any, total: any): string {
 		let diff;
 		if (b !== null && b !== '' && b !== undefined) {
 			let x = moment(a);

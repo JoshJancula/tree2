@@ -23,7 +23,7 @@ export class FactoryFormComponent implements OnInit {
 
 	constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<FactoryFormComponent>, private factoryService: FactoryService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-	ngOnInit() {
+	ngOnInit(): void {
 		if (this.data.Factory !== undefined) {
 			this.factory = this.data.Factory;
 			this.factory.Expires = moment(this.factory.Expires).format('HH:mm');
@@ -59,7 +59,6 @@ export class FactoryFormComponent implements OnInit {
 			return false;
 		}
 		return true;
-
 	}
 
 }

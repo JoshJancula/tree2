@@ -6,14 +6,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 	template: `<div class='row' style='width: 100%'>Are you sure? This cannot be undone.<button (click)='userClick(true);' mat-button>Yes</button><br><button (click)='userClick(false);' mat-button>No</button></div>`,
 	styleUrls: []
 })
-export class ConfirmDialogComponent implements OnInit {
+export class ConfirmDialogComponent {
 
 	public result = false;
 
 	constructor(private dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-	ngOnInit() {
-	}
 
 	public userClick(bool: boolean): void {
 		if (bool === true) {
