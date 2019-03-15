@@ -58,13 +58,13 @@ export class TreeComponent implements OnInit {
 	}
 
 	private factoryUpdated(value: any): void {
-			this.factories.find(row => row.id === value.id).Name = value.Name;
-			this.factories.find(row => row.id === value.id).Low = value.Low;
-			this.factories.find(row => row.id === value.id).High = value.High;
-			this.factories.find(row => row.id === value.id).Expires = value.Expires;
-			this.factories.find(row => row.id === value.id).Numbers = JSON.parse('[' + value.Numbers + ']');
-			this.checkExpiration();
-			this.factoryService.factoryStore = this.factories;
+		this.factories.find(row => row.id === value.id).Name = value.Name;
+		this.factories.find(row => row.id === value.id).Low = value.Low;
+		this.factories.find(row => row.id === value.id).High = value.High;
+		this.factories.find(row => row.id === value.id).Expires = value.Expires;
+		this.factories.find(row => row.id === value.id).Numbers = JSON.parse('[' + value.Numbers + ']');
+		this.checkExpiration();
+		this.factoryService.factoryStore = this.factories;
 	}
 
 	private factoryDeleted(value: any): void {
@@ -111,11 +111,11 @@ export class TreeComponent implements OnInit {
 
 	private checkExpiration(): void {
 		this.factories.forEach(fac => {
-			let exp =  moment(fac.Expires).utc();
-			let now =  moment(new Date()).utc();
-			if (moment(now).isSameOrAfter(moment(exp))) {
+			if (moment(new Date()).isSameOrAfter(moment(fac.Expires))) {
 				fac.Numbers = [];
-				fac.Expires = '23:59';
+				const tempDate = new Date();
+				let tempMIN = moment(tempDate).format('HH:mm');
+				fac.Expires = tempDate.toString().replace(tempMIN, '23:59');
 				this.factoryService.updateFactory(fac);
 			}
 		});
