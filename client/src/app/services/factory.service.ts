@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 const LOCAL_URL = 'http://localhost:8080';
-const SERVER_URL = ``;
+const SERVER_URL = `https://josh-tree.herokuapp.com:8080`;
 
 @Injectable({
 	providedIn: 'root'
