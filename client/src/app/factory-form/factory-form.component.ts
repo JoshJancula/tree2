@@ -19,6 +19,7 @@ export class FactoryFormComponent implements OnInit {
 	};
 
 	public generate = 15;
+	public minTime = moment(new Date()).format('HH:mm');
 
 	constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<FactoryFormComponent>, private factoryService: FactoryService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -31,17 +32,18 @@ export class FactoryFormComponent implements OnInit {
 
 	public saveFactory(): void {
 		this.factory.Expires = this.setTime(this.factory.Expires);
-		if (this.factoryService.checkForm(this.factory)) {
+		if (this.factoryService.checkForm(this.factory, this.generate)) {
 			if (this.data.New === true) {
 				this.factory.Numbers = this.factoryService.getNumbers(this.factory.Low, this.factory.High, this.generate);
 				this.factoryService.newFactory(this.factory);
-			} else if (this.data.Numbers === true)  {
+			} else if (this.data.Numbers === true) {
 				this.factory.Numbers = this.factoryService.getNumbers(this.factory.Low, this.factory.High, this.generate);
 				this.factoryService.updateFactory(this.factory);
 			} else {
 				this.factoryService.updateFactory(this.factory);
 			}
-		}
+			this.dialog.closeAll();
+		} else { this.factory.Expires = moment(this.factory.Expires).format('HH:mm'); }
 	}
 
 	private setTime(time: any): string {
@@ -49,6 +51,15 @@ export class FactoryFormComponent implements OnInit {
 		let tempMIN = moment(tempDate).format('HH:mm');
 		const newTime = tempDate.toString().replace(tempMIN, time);
 		return newTime;
+	}
+
+	public numberOnly(event): boolean {
+		const charCode = (event.which) ? event.which : event.keyCode;
+		if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+			return false;
+		}
+		return true;
+
 	}
 
 }

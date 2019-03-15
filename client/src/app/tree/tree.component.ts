@@ -30,7 +30,6 @@ export class TreeComponent implements OnInit {
 			this.utilService.showError(`Error sending connection request: ${error}`);
 		});
 		this.subscribeToUpdates();
-		setInterval(() => this.checkExpiration(), 60000);
 	}
 
 	private subscribeToUpdates(): void {
@@ -45,10 +44,17 @@ export class TreeComponent implements OnInit {
 
 	private handleUpdate(res): void {
 		switch (res.Action) {
-			case 'new': this.factories.push(res.Value); break;
+			case 'new': this.newFactory(res.Value); break;
 			case 'updated': this.factoryUpdated(res.Value); break;
 			case 'deleted': this.factoryDeleted(res.Value); break;
 		}
+	}
+
+	private newFactory(fac): void {
+		fac.Numbers = JSON.parse('[' + fac.Numbers + ']');
+		this.factories.push(fac);
+		this.checkExpiration();
+		this.factoryService.factoryStore = this.factories;
 	}
 
 	private factoryUpdated(value: any): void {
@@ -57,10 +63,13 @@ export class TreeComponent implements OnInit {
 			this.factories.find(row => row.id === value.id).High = value.High;
 			this.factories.find(row => row.id === value.id).Expires = value.Expires;
 			this.factories.find(row => row.id === value.id).Numbers = JSON.parse('[' + value.Numbers + ']');
+			this.checkExpiration();
+			this.factoryService.factoryStore = this.factories;
 	}
 
 	private factoryDeleted(value: any): void {
 		this.factories.splice(this.factories.indexOf(value), 1);
+		this.factoryService.factoryStore = this.factories;
 	}
 
 	private setFactoryInfo(facs: any): void {
@@ -70,14 +79,18 @@ export class TreeComponent implements OnInit {
 			temp.push(fac);
 		});
 		this.factories = temp;
+		this.factoryService.factoryStore = temp;
+		setInterval(() => this.checkExpiration(), 60000);
 	}
 
 	public editFactory(fac: any): void {
 		this.utilService.openFactoryForm(false, false, fac);
+		this.checkExpiration();
 	}
 
 	public deleteFactory(fac: any): void {
 		this.openConfirmDialog(fac);
+		this.checkExpiration();
 	}
 
 	public newNumbers(fac: any): void {

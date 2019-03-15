@@ -3,6 +3,7 @@ import * as socketIo from 'socket.io-client';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import * as moment from 'moment';
 
 const LOCAL_URL = 'http://localhost:8080';
 const SERVER_URL = `https://josh-tree.herokuapp.com`;
@@ -14,6 +15,7 @@ const SERVER_URL = `https://josh-tree.herokuapp.com`;
 export class FactoryService {
 
 	private socket: any;
+	public factoryStore = [];
 
 	constructor(private dialog: MatDialog) { }
 
@@ -75,23 +77,32 @@ export class FactoryService {
 		this.socket.emit('deleteFactory', data);
 	}
 
-	public getNumbers(low: number, high: number, generate: number): string {
+	public getNumbers(low: any, high: any, generate: any): string {
 		let temp = [];
-		for (let i = 0; i < generate; i++) {
-			let number = Math.floor(Math.random() * (high - low) + 1) + low;
-			temp.push(number);
+		for (let i = 0; i < parseInt(generate); i++) {
+			let num = Math.floor(Math.random() * (parseInt(high) - parseInt(low)) + 1) + parseInt(low);
+			temp.push(num);
 		}
 		return temp.toString();
 	}
 
-	public checkForm(fac: any): boolean {
+	public checkForm(fac: any, generate?: any): boolean {
 		console.log('fac: ', fac);
 		let formValid = true;
 		if (!fac.Name || !fac.Low || !fac.High || !fac.Expires) {
-			this.showError(`Please complete the form`);
+			this.showError(`Please complete the form.`);
 			formValid = false;
 		} else if (parseInt(fac.Low) > parseInt(fac.High)) {
-			this.showError(`The Low number cannot be greater than the high number`);
+			this.showError(`The Low number cannot be greater than the high number.`);
+			formValid = false;
+		} else if (parseInt(generate) > 15) {
+			this.showError(`You cannot generate more than 15 numbers.`);
+			formValid = false;
+		} else if (moment(fac.Expires).isBefore(moment(new Date()))) {
+			this.showError(`You cannot set a time in the past.`);
+			formValid = false;
+		} else if (this.factoryStore.find(row => row.Name === fac.Name)) {
+			this.showError(`There is already a factory with this name.`);
 			formValid = false;
 		}
 		return formValid;
