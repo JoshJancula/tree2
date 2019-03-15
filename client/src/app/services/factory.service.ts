@@ -102,7 +102,7 @@ export class FactoryService {
 			this.showError(`You cannot set a time in the past.`);
 			formValid = false;
 		} else if (!fac.id) {
-			if (this.factoryStore.fill(row => (row.Name === fac.Name))) {
+			if (this.factoryStore.find(row => (row.Name === fac.Name))) {
 				this.showError(`There is already a factory with this name.`);
 				formValid = false;
 			}
