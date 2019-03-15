@@ -111,7 +111,9 @@ export class TreeComponent implements OnInit {
 
 	private checkExpiration(): void {
 		this.factories.forEach(fac => {
-			if (moment(new Date()).isSameOrAfter(moment(fac.Expires))) {
+			let exp =  moment(fac.Expires).utc();
+			let now =  moment(new Date()).utc();
+			if (moment(now).isSameOrAfter(moment(exp))) {
 				fac.Numbers = [];
 				fac.Expires = '23:59';
 				this.factoryService.updateFactory(fac);
