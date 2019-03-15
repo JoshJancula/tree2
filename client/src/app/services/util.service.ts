@@ -56,6 +56,7 @@ export class UtilService {
 			if (tempTime.hours() < 0) {
 				return `${tempTime.hours().toString().replace('-', '')} hr ${tempTime.minutes().toString().replace('-', '')} minutes`;
 			} else {
+				const test = tempTime.asSeconds();
 				return `${tempTime.minutes().toString().replace('-', '')} minutes`;
 			}
 		}
