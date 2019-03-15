@@ -1,0 +1,19 @@
+<div class='row col-sm-12' style='width: 100%;'>
+  <mat-form-field [ngClass]="{'hide': data.Numbers !== false && data.New === false}">
+    <input matInput placeholder="Name" [(ngModel)]="factory.Name" />
+  </mat-form-field><br>
+  <mat-form-field>
+    <input matInput placeholder="Lowest number to generate" pattern="[0-9]*" minlength="1"  maxlength="3"  [(ngModel)]="factory.Low" />
+  </mat-form-field><br>
+  <mat-form-field>
+    <input matInput placeholder="Highest number to generate" pattern="[0-9]*"  minlength="1"  maxlength="3" [(ngModel)]="factory.High" />
+  </mat-form-field><br>
+  <mat-form-field *ngIf='data.New === true || data.Numbers === true' [style.marginBottom]="data.Numbers === true ? '5%' : '0%' ">
+      <input matInput placeholder="Generate how many numbers?" pattern="[0-9]*" minlength="1"  maxlength="3" [(ngModel)]="generate" />
+    </mat-form-field><br>
+  <mat-form-field style='margin-bottom: 5%;' [ngClass]="{'hide': data.Numbers !== false && data.New === false}">
+    <input matInput placeholder="Child nodes expire at..." type="time" id="appt" 
+    min="00:00" max="23:59" [(ngModel)]="factory.Expires">
+  </mat-form-field><br><br>
+  <button class='saveFactory' (click)='saveFactory();' mat-button>Save</button>
+</div>
