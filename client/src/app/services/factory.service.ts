@@ -101,23 +101,13 @@ export class FactoryService {
 		} else if (moment(fac.Expires).isBefore(moment(new Date()))) {
 			this.showError(`You cannot set a time in the past.`);
 			formValid = false;
-		} else if (this.checkDuplicate(fac.Name)) {
-			this.showError(`There is already a factory with this name.`);
-			formValid = false;
+		} else if (!fac.id) {
+			if (this.factoryStore.fill(row => (row.Name === fac.Name))) {
+				this.showError(`There is already a factory with this name.`);
+				formValid = false;
+			}
 		}
 		return formValid;
-	}
-
-	private checkDuplicate(name) {
-		let found = 0;
-		this.factoryStore.forEach(fac => {
-			if (fac.Name === name) {
-				found++;
-			}
-		});
-		if (found > 1) {
-			return true;
-		} else { return false; }
 	}
 
 

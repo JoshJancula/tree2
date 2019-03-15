@@ -17,6 +17,7 @@ export class TreeComponent implements OnInit {
 	public factories = [];
 	private updateSubscription: Subscription;
 	public allExpandState = true;
+	private interval = undefined;
 
 	constructor(private expansionPanel: MatExpansionModule, public dialog: MatDialog, private utilService: UtilService, private factoryService: FactoryService) {
 	}
@@ -80,7 +81,7 @@ export class TreeComponent implements OnInit {
 		});
 		this.factories = temp;
 		this.factoryService.factoryStore = temp;
-		setInterval(() => this.checkExpiration(), 60000);
+		this.interval = setInterval(() => this.checkExpiration(), 10000);
 	}
 
 	public editFactory(fac: any): void {
