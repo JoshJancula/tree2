@@ -12,13 +12,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
 	templateUrl: './tree.component.html',
 	styleUrls: ['./tree.component.scss']
 })
-export class TreeComponent {
+export class TreeComponent implements OnInit {
 
 	public factories = [];
 	private updateSubscription: Subscription;
 	public allExpandState = true;
 
 	constructor(private expansionPanel: MatExpansionModule, public dialog: MatDialog, private utilService: UtilService, private factoryService: FactoryService) {
+	}
+
+	ngOnInit(): void {
 		this.factoryService.initSocket();
 		this.factoryService.sendConnectionRequest();
 		this.factoryService.onConnectionResponse().subscribe((response: any) => {
