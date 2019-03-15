@@ -28,11 +28,11 @@ app.all('*', (req, res, next) => {
 
 
 // catch 404 and forward to error handler
-// app.use((req, res, next) => {
-//   let err = new Error('Not Found, req was: ', req, ' res is: ', res);
-//   err.status = 404;
-//   next(err);
-// });
+app.use((req, res, next) => {
+  let err = new Error('Not Found, req was: ', req, ' res is: ', res);
+  err.status = 404;
+  next(err);
+});
 
 // error handler
 app.use((err, req, res, next) => {

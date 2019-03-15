@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
+import { RouterModule } from '@angular/router';
 import { TreeComponent } from './tree/tree.component';
 import { FactoryFormComponent } from './factory-form/factory-form.component';
 import { MatCardModule, MatSlideToggleModule, MatSliderModule, MatRadioModule, MatAutocompleteModule } from '@angular/material';
@@ -83,6 +84,9 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 		BrowserAnimationsModule,
 		HttpClientModule,
 		HttpModule,
+		RouterModule.forRoot([
+			{ path: '', component: AppComponent },
+		])
 	],
 	providers: [],
 	bootstrap: [AppComponent]
